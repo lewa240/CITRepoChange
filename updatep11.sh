@@ -1,16 +1,17 @@
 #!/bin/bash
+set -e
 
 echo "Инициализация..."
 
-rm -rf /etc/apt/sources.list.d/sisa.list
+rm -f /etc/apt/sources.list.d/sisa.list
 
-for file in "/etc/apt/sources.list.d/"*.list; do
-	if [ -f "$file" ]; then
-		sed -i 's/^/#/' "$file"
-	fi
+for file in /etc/apt/sources.list.d/*.list; do
+    if [ -f "$file" ]; then
+        sed -i 's/^[^#]/#&/' "$file"
+    fi
 done
 
-cat << EOF > "/etc/apt/sources.list.d/sisa.list"
+cat << 'EOF' > /etc/apt/sources.list.d/sisa.list
 rpm http://10.0.50.50/sisa p11/x86_64 classic
 rpm http://10.0.50.50/sisa p11/noarch classic
 EOF
